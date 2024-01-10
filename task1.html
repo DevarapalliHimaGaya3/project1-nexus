@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 16px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                width: 100%;
+            }
+        }
+    </style>
+    <title>Login / Sign Up</title>
+</head>
+<body>
+    <div class="container">
+        <div id="loginContent">
+            <form id="loginForm" class="form">
+                <h2>Login</h2>
+                <label for="username">Username or Email:</label>
+                <input type="text" id="username" name="username" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="button" onclick="validateLogin()">Login</button>
+            </form>
+
+            <div class="forgot-password">
+                <a href="#" onclick="showForgotPasswordForm()">Forgot Password?</a>
+            </div>
+
+            <div class="forgot-password">
+                <a href="#" onclick="showSignupForm()">Don't have an account? Sign Up</a>
+            </div>
+        </div>
+
+        <div id="signupContent" style="display: none;">
+            <form id="signupForm" class="form">
+                <h2>Sign Up</h2>
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required>
+                
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="signupPassword" name="password" required>
+
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+                <button type="button" onclick="validateSignUp()">Sign Up</button>
+            </form>
+
+            <div class="forgot-password">
+                <a href="#" onclick="showLoginForm()">Already have an account? Login</a>
+            </div>
+        </div>
+
+        <div id="forgotPasswordContent" style="display: none;">
+            <form id="forgotPasswordForm" class="form">
+                <h2>Forgot Password</h2>
+                <label for="email">Enter your email address:</label>
+                <input type="email" id="forgotPasswordEmail" name="email" required>
+
+                <button type="button" onclick="sendResetLink()">Reset Password</button>
+                <button type="button" onclick="goBack()">Back to Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function validateLogin() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Validate each field
+            if (!username || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Check if the entered username is a valid email
+            if (!isValidEmail(username)) {
+                alert('Invalid email address or username format. Please try again.');
+                return;
+            }
+
+            // Check if the password meets the criteria
+            if (!isValidPassword(password)) {
+                alert('Invalid password. It should contain at least 8 characters with a combination of letters, digits, or symbols.');
+                return;
+            }
+
+            // Simulate login validation (Replace this with actual authentication logic)
+            displaySuccessMessage();
+        }
+
+        function isValidEmail(email) {
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function isValidPassword(password) {
+            var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            return passwordRegex.test(password);
+        }
+
+        function displaySuccessMessage() {
+            document.getElementById('successMessage').style.display = 'block';
+        }
+
+        function showForgotPasswordForm() {
+            document.getElementById('loginContent').style.display = 'none';
+            document.getElementById('signupContent').style.display = 'none';
+            document.getElementById('forgotPasswordContent').style.display = 'block';
+        }
+
+        function showSignupForm() {
+            document.getElementById('loginContent').style.display = 'none';
+            document.getElementById('signupContent').style.display = 'block';
+            document.getElementById('forgotPasswordContent').style.display = 'none';
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginContent').style.display = 'block';
+            document.getElementById('signupContent').style.display = 'none';
+            document.getElementById('forgotPasswordContent').style.display = 'none';
+        }
+
+        function sendResetLink() {
+            // ... (same as before)
+        }
+
+        function goBack() {
+            document.getElementById('loginContent').style.display = 'block';
+            document.getElementById('signupContent').style.display = 'none';
+            document.getElementById('forgotPasswordContent').style.display = 'none';
+        }
+        
+        function validateSignUp() {
+            var fullName = document.getElementById('fullName').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('signupPassword').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validate each field
+            if (!fullName || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Check if the email is valid
+            if (!isValidEmail(email)) {
+                alert('Invalid email address. Please try again.');
+                return;
+            }
+
+            // Check if the password meets the criteria
+            if (!isValidPassword(password)) {
+                alert('Invalid password. It should contain at least 8 characters with a combination of letters, digits, or symbols.');
+                return;
+            }
+
+            // Check if password and confirm password match
+            if (password !== confirmPassword) {
+                alert('Password and Confirm Password do not match. Please try again.');
+                return;
+            }
+
+            // Perform signup logic (Replace this with actual signup logic)
+            alert('Signup Successful!');
+            // You can redirect or perform any other desired action here
+        }
+    </script>
+</body>
+</html>
